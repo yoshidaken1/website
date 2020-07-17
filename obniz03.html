@@ -1,0 +1,27 @@
+<!-- HTML Example -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://obniz.io/js/jquery-3.2.1.min.js"></script>
+  <script src="https://unpkg.com/obniz@3.6.1/obniz.js"></script>
+</head>
+<body>
+
+<div id="obniz-debug"></div>
+<div id="distance"></div>
+
+<script>
+  var obniz = new Obniz("9487-9441");
+  obniz.onconnect = async function () {
+
+    var sensor = obniz.wired("GP2Y0A21YK0F", {vcc:0, gnd:1, signal:2})
+    sensor.start(function( distance ){
+      $("#distance").html(distance + " mm") ;
+    })
+  };
+
+
+</script>​
+</body>
+</html>
