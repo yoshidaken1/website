@@ -1,0 +1,40 @@
+<!-- HTML Example -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://obniz.io/js/jquery-3.2.1.min.js"></script>
+  <script src="https://unpkg.com/obniz@3.6.1/obniz.js"></script>
+</head>
+<body>
+
+<div id="obniz-debug"></div>
+<h1>LED</h1>
+<button id="on">ON</button>
+<button id="off">OFF</button>
+<script>
+  var obniz = new Obniz("9487-9441");
+  obniz.onconnect = async function () {
+    var led = obniz.wired("LED", {anode:0, cathode:1});
+    led.on();
+    var ledRed = obniz.wired("LED", {anode:10, cathode:11});
+    ledRed.on();
+
+    $("#on").on("click",function(){
+      led.on();
+      ledRed.on();
+    })
+    $("#off").on("click",function(){
+      led.off();
+      ledRed.off();
+    })
+    //obnizがオフラインになったときはボタンが押されても反応しないようにする
+    obniz.onclose = async function(){
+      $("#on").off("click");
+      $("#off").off("click"); 
+    };
+  }
+
+</script>
+</body>
+</html>
