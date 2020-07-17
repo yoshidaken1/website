@@ -1,0 +1,68 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script
+      src="https://unpkg.com/obniz@3.6.1/obniz.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="obniz-debug"></div>
+    <h3>Connect From Your Browser</h3>
+    <button class="btn btn-primary" id="on">LED ON</button>
+    <button class="btn btn-primary" id="off">LED OFF</button>
+    <div id="print"></div>
+
+    <div>
+      <input type="text" id="text" value="Hello World" />
+      <button class="btn btn-primary" id="showtime">Print on obniz</button>
+    </div>
+
+    <div>Demo Pin Assign</div>
+    <ul>
+      <li>io0: LED anode</li>
+      <li>io1: LED cathode</li>
+      <li>Switch State will be printed on browser</li>
+    </ul>
+
+    <script>
+      var obniz = new Obniz("9487-9441");
+
+      obniz.onconnect = async function() {
+        var led = obniz.wired("LED", { anode: 0, cathode: 1 });
+
+        obniz.display.clear();
+        obniz.display.print("Hello World");
+
+        obniz.switch.onchange = function(state) {
+          $("#print").text(state);
+          obniz.display.clear();
+          obniz.display.print(state);
+        };
+
+        $("#showtime").on("click", function() {
+          obniz.display.clear();
+          obniz.display.print($("#text").val());
+        });
+
+        $("#on").click(function() {
+          led.on();
+          obniz.display.clear();
+          obniz.display.print("ON");
+        });
+
+        $("#off").click(function() {
+          led.off();
+          obniz.display.clear();
+          obniz.display.print("OFF");
+        });
+      };
+    </script>
+  </body>
+</html>
