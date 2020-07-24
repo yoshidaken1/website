@@ -1,0 +1,44 @@
+<!-- HTML Example -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://obniz.io/js/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <script src="https://unpkg.com/obniz@3.7.0/obniz.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div id="obniz-debug"></div>
+  <br>
+<button id="buttonL" class="btn btn-warning" style="width:45%;height:100px;font-size:50px;">↑左</button>
+<button id="buttonR" class="btn btn-warning" style="width:45%;height:100px;font-size:50px;">右↑</button>
+
+<script>
+var obniz = new Obniz("4677-2559");
+obniz.onconnect = async function () {
+  var motorL = obniz.wired("DCMotor",  {forward:3, back:2});
+  var motorR = obniz.wired("DCMotor",  {forward:1, back:0});
+  motorL.power(90);
+  // motorL.move(true);
+  motorR.power(90);
+  // motorR.move(true);
+
+  $("#buttonL").on('touchstart mousedown', function(){
+    motorL.move(true);  //ボタンが押されたら動かす
+  })
+  $("#buttonL").on('touchend mouseup', function(){
+    motorL.stop(); //ボタンが離されたら止める
+  })
+    $("#buttonR").on('touchstart mousedown', function(){
+    motorR.move(true);  //ボタンが押されたら動かす
+  })
+  $("#buttonR").on('touchend mouseup', function(){
+    motorR.stop(); //ボタンが離されたら止める
+  })
+
+}
+
+</script>
+</body>
+</html>
